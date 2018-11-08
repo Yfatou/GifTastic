@@ -1,9 +1,21 @@
+body {
+    background: url("/GifTastic/assets/images/gifsBackground.jpg");
+    background-size: cover;
+}
+
+h1 {
+    text-align: center;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
 #animals-form{
     float: right;
 }
 
 .animalBtn {
     margin: 10px;
+    background-color:gray;
+    color: aliceblue;
 }
 
 .container {

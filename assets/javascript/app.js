@@ -25,9 +25,11 @@ $(document).ready(function(){
                 //Store the rating from the result into a variable
                 var pRating = $("<p>").text("Rating: " + results[i].rating);
                 //new image for the gif
-                var image = $("<img>");
-                image.attr("src", results[i].images.fixed_height.url);
-                console.log(results[i].images.fixed_height.url);
+                var image = $("<img class='gif'>");
+                image.attr("src", results[i].images.original_still.url);
+                image.attr("data-still", results[i].images.original_still.url);
+                image.attr("data-animate", results[i].images.original.url);
+                image.attr("data-state", "still");
                 
                 //append the rating and the gid to the new div
                 animalDiv.append(pRating);
@@ -36,34 +38,65 @@ $(document).ready(function(){
                 //and add the new div to the global one that contains all the gifs
                 $("#animals-view").prepend(animalDiv);
             }
+
+            $(".gif").on("click", function() {
+                console.log("on click gif");
+                var state = $(this).attr("data-state");
+        
+                if (state === "still") {
+                    $(this).attr("src", $(this).attr("data-animate"));
+                    $(this).attr("data-state", "animate");
+                  } else {
+                    $(this).attr("src", $(this).attr("data-still"));
+                    $(this).attr("data-state", "still");
+                  }
+                });
+
            
-            
         });
     };
 
+    // $(".gif").on("click", function() {
+    //     console.log("on click gif");
+    //     var state = $(this).attr("data-state");
 
+    //     if (state === "still") {
+    //         $(this).attr("src", $(this).attr("data-animate"));
+    //         $(this).attr("data-state", "animate");
+    //       } else {
+    //         $(this).attr("src", $(this).attr("data-still"));
+    //         $(this).attr("data-state", "still");
+    //       }
+    //     });
+    
+
+
+    //function to display the buttons
     function renderButtons(){
+        //clear the button view before adding
         $("#buttons-view").empty();
 
+        //go through the initial animals array and display buttons for each element in the array
         for(var i = 0; i < animals.length; i++){
             var a = $("<button>");
             a.addClass("animalBtn");
             a.attr("data-name", animals[i]);
             a.text(animals[i]);
+            //append the buttons to the div 
             $("#buttons-view").append(a);
         };
     }
 
-
+    //function to add a new animal from the inputBox
     $("#add-animal").on("click", function(event){
-        event.preventDefault();
-        var userInput = $("#animal-input").val().trim();
-        animals.push(userInput);
-        renderButtons();
-        $("#animal-input").val("");
+        event.preventDefault();//to prevent the page to refresh
+        var userInput = $("#animal-input").val().trim();//the new value entered by the user
+        animals.push(userInput);//the value is added to the array animals
+        renderButtons();//we call the function to display the buttons
+        $("#animal-input").val("");//clear the input box
     });
 
-
+    //function on click when the user click on an animal button
     $(document).on("click", ".animalBtn", displayAnimal);
 
     renderButtons();
