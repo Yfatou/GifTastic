@@ -14,8 +14,8 @@ h1 {
 
 .animalBtn {
     margin: 10px;
-    background-color:gray;
-    color: aliceblue;
+    background-color: teal;
+    color: white;
 }
 
 .container {
@@ -36,4 +36,14 @@ img {
 
 p {
     margin-bottom: 0px;
+}
+
+.title {
+    background: url("/GifTastic/assets/images/gifsBackground.jpg");
+}
+
+#add-animal {
+    margin-top: 5px;
+    background-color: teal;
+    color: white;
 }

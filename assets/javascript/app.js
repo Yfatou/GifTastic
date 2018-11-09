@@ -26,6 +26,7 @@ $(document).ready(function(){
                 var pRating = $("<p>").text("Rating: " + results[i].rating);
                 //new image for the gif
                 var image = $("<img class='gif'>");
+                //image attributes 
                 image.attr("src", results[i].images.original_still.url);
                 image.attr("data-still", results[i].images.original_still.url);
                 image.attr("data-animate", results[i].images.original.url);
@@ -39,14 +40,16 @@ $(document).ready(function(){
                 $("#animals-view").prepend(animalDiv);
             }
 
+            //when the user click on a gif
             $(".gif").on("click", function() {
                 console.log("on click gif");
                 var state = $(this).attr("data-state");
         
+                //if the gif is still,it become animated
                 if (state === "still") {
                     $(this).attr("src", $(this).attr("data-animate"));
                     $(this).attr("data-state", "animate");
-                  } else {
+                  } else {//if it's animated, it become still
                     $(this).attr("src", $(this).attr("data-still"));
                     $(this).attr("data-state", "still");
                   }
@@ -79,6 +82,7 @@ $(document).ready(function(){
         //go through the initial animals array and display buttons for each element in the array
         for(var i = 0; i < animals.length; i++){
             var a = $("<button>");
+            //var a = $("<button type='button' class='btn btn-info>");
             a.addClass("animalBtn");
             a.attr("data-name", animals[i]);
             a.text(animals[i]);
