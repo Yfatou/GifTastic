@@ -9,6 +9,8 @@ $(document).ready(function(){
     //Function that will display the gifs from a choosen animal
     function displayAnimal(){
 
+        $("#animals-view").empty();//Empty the div containing the gifs before charging new ones
+
         var animal = $(this).attr("data-name");
         var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=HXZA60whyzP8qrKhoNQwkFYprPTgHFhR&q=" + animal + "&limit=10";
         
@@ -19,7 +21,7 @@ $(document).ready(function(){
         }).then(function(response){
             var results = response.data;//The result of the Get queryURL is put in an array
 
-            for(var i = 0; i < results.length; i++){
+            for(var i = 0; i < results.length; i++){//Go through the whole array
 
                 var animalDiv = $("<div class='animal'>");//new div to display the rating and the gif
                 //Store the rating from the result into a variable
@@ -27,12 +29,12 @@ $(document).ready(function(){
                 //new image for the gif
                 var image = $("<img class='gif'>");
                 //image attributes 
-                image.attr("src", results[i].images.original_still.url);
-                image.attr("data-still", results[i].images.original_still.url);
-                image.attr("data-animate", results[i].images.original.url);
-                image.attr("data-state", "still");
+                image.attr("src", results[i].images.original_still.url);//original url of the gif
+                image.attr("data-still", results[i].images.original_still.url);//url for the non amimated gif
+                image.attr("data-animate", results[i].images.original.url);//url for the animated gif
+                image.attr("data-state", "still");//the default state of the gif will be still
                 
-                //append the rating and the gid to the new div
+                //append the rating and the gif to the new div
                 animalDiv.append(pRating);
                 animalDiv.append(image);
                 
@@ -42,36 +44,22 @@ $(document).ready(function(){
 
             //when the user click on a gif
             $(".gif").on("click", function() {
-                console.log("on click gif");
-                var state = $(this).attr("data-state");
+                
+                var state = $(this).attr("data-state");//capture the state of teh gif
         
                 //if the gif is still,it become animated
                 if (state === "still") {
-                    $(this).attr("src", $(this).attr("data-animate"));
-                    $(this).attr("data-state", "animate");
+                    $(this).attr("src", $(this).attr("data-animate"));//choose the corresponding url 
+                    $(this).attr("data-state", "animate");//change the state to animate
                   } else {//if it's animated, it become still
-                    $(this).attr("src", $(this).attr("data-still"));
-                    $(this).attr("data-state", "still");
+                    $(this).attr("src", $(this).attr("data-still"));//choose the corresponding url 
+                    $(this).attr("data-state", "still");//change the state to still
                   }
                 });
 
            
         });
     };
-
-    // $(".gif").on("click", function() {
-    //     console.log("on click gif");
-    //     var state = $(this).attr("data-state");
-
-    //     if (state === "still") {
-    //         $(this).attr("src", $(this).attr("data-animate"));
-    //         $(this).attr("data-state", "animate");
-    //       } else {
-    //         $(this).attr("src", $(this).attr("data-still"));
-    //         $(this).attr("data-state", "still");
-    //       }
-    //     });
-    
 
 
     //function to display the buttons
@@ -81,17 +69,18 @@ $(document).ready(function(){
 
         //go through the initial animals array and display buttons for each element in the array
         for(var i = 0; i < animals.length; i++){
-            var a = $("<button>");
-            //var a = $("<button type='button' class='btn btn-info>");
-            a.addClass("animalBtn");
-            a.attr("data-name", animals[i]);
-            a.text(animals[i]);
+        
+            var a = $("<button type='button'></button>");//create a button
+            a.addClass("btn btn-info animalBtn");//with a bootstrap btn-info class
+            a.attr("data-name", animals[i]);//and a data-name attribute which will be one of the element of our array
+            a.text(animals[i]);//and the text will be the i element of our array
             //append the buttons to the div 
             $("#buttons-view").append(a);
         };
     }
 
     //function to add a new animal from the inputBox
+    //when the use click on the submit button
     $("#add-animal").on("click", function(event){
         event.preventDefault();//to prevent the page to refresh
         var userInput = $("#animal-input").val().trim();//the new value entered by the user
